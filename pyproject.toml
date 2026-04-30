@@ -1,0 +1,123 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "graphoracle"
+version = "0.1.0"
+description = "Universal Interdependent Knowledge Graph Forecasting with GNNs"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "GraphOracle Contributors" }]
+keywords = [
+    "graph neural networks",
+    "time series forecasting",
+    "heterogeneous graphs",
+    "temporal graphs",
+    "knowledge graphs",
+    "spatiotemporal",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1.0",
+    "torch-geometric>=2.4.0",
+    "lightning>=2.1.0",
+    "pydantic>=2.5.0",
+    "loguru>=0.7.0",
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+    "scipy>=1.11.0",
+    "scikit-learn>=1.3.0",
+    "networkx>=3.2.0",
+    "tqdm>=4.66.0",
+    "rich>=13.7.0",
+]
+
+[project.optional-dependencies]
+gpu = [
+    "torch>=2.1.0",  # install with CUDA index separately
+]
+viz = [
+    "plotly>=5.18.0",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "kaleido>=0.2.1",
+]
+benchmarks = [
+    "requests>=2.31.0",
+    "h5py>=3.10.0",
+    "openpyxl>=3.1.0",
+]
+prophet = [
+    "prophet>=1.1.5",
+    "cmdstanpy>=1.2.0",
+]
+all = [
+    "graphoracle[viz,benchmarks,prophet]",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "mypy>=1.7.0",
+    "ruff>=0.1.6",
+    "black>=23.11.0",
+    "pre-commit>=3.5.0",
+    "ipykernel>=6.27.0",
+    "nbformat>=5.9.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Gaurang111/graphoracle"
+Documentation = "https://graphoracle.readthedocs.io"
+Repository = "https://github.com/Gaurang111/graphoracle"
+Issues = "https://github.com/Gaurang111/graphoracle/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["graphoracle*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=graphoracle --cov-report=term-missing --cov-fail-under=80"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+exclude = ["examples/", "docs/"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+ignore = ["E501", "B008", "N812"]
+
+[tool.coverage.run]
+source = ["graphoracle"]
+omit = ["*/tests/*", "*/examples/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
